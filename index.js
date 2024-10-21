@@ -44,7 +44,7 @@ __exportStar(__webpack_require__(/*! ./src/Utils */ "./src/Utils.ts"), exports);
 /*!*****************************!*\
   !*** ./src/PathResolver.ts ***!
   \*****************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 /**
@@ -55,6 +55,15 @@ __exportStar(__webpack_require__(/*! ./src/Utils */ "./src/Utils.ts"), exports);
 3 - patient.medicalCondition[mapOrSetKey]
 4 - patient.getAgeMonth()
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PathResolver = void 0;
 const Utils_1 = __webpack_require__(/*! ./Utils */ "./src/Utils.ts");
@@ -86,49 +95,59 @@ class PathResolver {
         return path.split(".");
     }
     resolve(path) {
-        const tokens = this.tokenise(path);
-        let counter = 0;
-        const value = this._resolve(tokens, this.context, counter);
-        return value;
+        return __awaiter(this, void 0, void 0, function* () {
+            const tokens = this.tokenise(path);
+            let counter = 0;
+            const value = yield this._resolve(tokens, this.context, counter);
+            return value;
+        });
     }
     _resolve(tokens, context, counter) {
-        const token = tokens[counter];
-        if (!token)
-            return context;
-        if (!context || !context.hasOwnProperty(token.segment)) {
-            throw new Error(`Invalid property or path: ${token.segment}`);
-        }
-        if (token.type === "array") {
-            const contextValue = context[token.segment];
-            if (!Utils_1.Utils.isArray(contextValue)) {
-                throw new Error(`Property "${token.segment}" is not an array.`);
+        return __awaiter(this, void 0, void 0, function* () {
+            const token = tokens[counter];
+            if (!token)
+                return context;
+            if (!context || !context.hasOwnProperty(token.segment)) {
+                throw new Error(`Invalid property or path: ${token.segment}`);
             }
-            const value = contextValue[token === null || token === void 0 ? void 0 : token.arrayIndex];
-            return this._resolve(tokens, value, counter + 1);
-        }
-        else if (token.type === "mapOrSet") {
-            const contextValue = context[token.segment];
-            if (!Utils_1.Utils.isMap(contextValue) && !Utils_1.Utils.isSet(contextValue)) {
-                throw new Error(`Property "${token.segment}" is not a map or set.`);
+            if (token.type === "array") {
+                const contextValue = context[token.segment];
+                if (!Utils_1.Utils.isArray(contextValue)) {
+                    throw new Error(`Property "${token.segment}" is not an array.`);
+                }
+                const value = contextValue[token === null || token === void 0 ? void 0 : token.arrayIndex];
+                return this._resolve(tokens, value, counter + 1);
             }
-            const value = contextValue.get(token === null || token === void 0 ? void 0 : token.mapOrSetKey);
-            return this._resolve(tokens, value, counter + 1);
-        }
-        else if (token.type === "function") {
-            const contextValue = context[token.segment];
-            if (!Utils_1.Utils.isFunction(contextValue)) {
-                throw new Error(`Property "${token.segment}" is not a function.`);
+            else if (token.type === "mapOrSet") {
+                const contextValue = context[token.segment];
+                if (!Utils_1.Utils.isMap(contextValue) && !Utils_1.Utils.isSet(contextValue)) {
+                    throw new Error(`Property "${token.segment}" is not a map or set.`);
+                }
+                const value = contextValue.get(token === null || token === void 0 ? void 0 : token.mapOrSetKey);
+                return this._resolve(tokens, value, counter + 1);
             }
-            const value = contextValue(...token === null || token === void 0 ? void 0 : token.functionArgs);
-            return this._resolve(tokens, value, counter + 1);
-        }
-        else if (token.type === "property") {
-            const value = context[token.segment];
-            return this._resolve(tokens, value, counter + 1);
-        }
-        else {
-            throw new Error(`Invalid segment type: ${token.type}`);
-        }
+            else if (token.type === "function") {
+                const contextValue = context[token.segment];
+                if (!Utils_1.Utils.isFunction(contextValue)) {
+                    throw new Error(`Property "${token.segment}" is not a function.`);
+                }
+                if (Utils_1.Utils.isAsyncFunction(contextValue)) {
+                    const value = yield contextValue(...token === null || token === void 0 ? void 0 : token.functionArgs);
+                    return this._resolve(tokens, value, counter + 1);
+                }
+                else {
+                    const value = contextValue(...token === null || token === void 0 ? void 0 : token.functionArgs);
+                    return this._resolve(tokens, value, counter + 1);
+                }
+            }
+            else if (token.type === "property") {
+                const value = context[token.segment];
+                return this._resolve(tokens, value, counter + 1);
+            }
+            else {
+                throw new Error(`Invalid segment type: ${token.type}`);
+            }
+        });
     }
     parseArrayOrMapAndSet(segment) {
         const match = segment.match(/(\w+)\[(.*?)\]/);
@@ -179,6 +198,9 @@ exports.PathResolver = PathResolver;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Utils = void 0;
 class Utils {
+    static isAsyncFunction(fn) {
+        return fn.constructor.name === "AsyncFunction";
+    }
     static isFunctionSegment(segment) {
         const regex = /([\w]+)\((([\w]+)(,[\w]+)*)?\)/;
         return regex.test(segment);

@@ -17,12 +17,13 @@ type Token = {
 };
 export class PathResolver<T> {
     constructor(context: T);
-    resolve<R = any>(path: string): R;
-    _resolve(tokens: Token[], context: any, counter: number): any;
+    resolve<R = any>(path: string): Promise<R>;
+    _resolve(tokens: Token[], context: any, counter: number): Promise<any>;
 }
 export {};
 
 export class Utils {
+    static isAsyncFunction(fn: Function): boolean;
     static isFunctionSegment(segment: string): boolean;
     static isArraySegment(segment: string): boolean;
     static isObject(value: any): boolean;

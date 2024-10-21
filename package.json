@@ -1,5 +1,5 @@
 {
-  "name": "pathresolver",
+  "name": "smart-path-resolver",
   "version": "1.0.0",
   "description": "Cette resolver de path est developper pour repondre aux exigence du projet NutriXnap",
   "main": "index.ts",
