@@ -1,6 +1,6 @@
 {
   "name": "smart-path-resolver",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Cette resolver de path est developper pour repondre aux exigences du projet NutriXnap",
   "main": "index.ts",
   "scripts": {
