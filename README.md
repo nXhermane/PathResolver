@@ -2,6 +2,7 @@
 # smart-path-resolver
 
 A lightweight and efficient library for resolving object paths dynamically in JavaScript and TypeScript. It supports property access, array indexing, Map/Set key lookups, and function invocation.
+
 [![npm version](https://badge.fury.io/js/smart-path-resolver.svg)](https://badge.fury.io/js/smart-path-resolver)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ## Features
