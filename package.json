@@ -1,33 +1,64 @@
 {
   "name": "smart-path-resolver",
   "version": "1.0.1",
-  "description": "Cette resolver de path est developper pour repondre aux exigences du projet NutriXnap",
-  "main": "index.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack && node clean-empty-dirs.js",
-    "build:doc:html": "npx documentation build ./**/*.ts -f html -o docs",
-    "build:doc:md": "npx documentation build ./**/*.ts -f md -o docs/Readme.md"
+  "description": "A lightweight and fast JavaScript/TypeScript library for resolving object paths with support for arrays, Maps, Sets, and function calls.",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    "import": {
+      "default": "./index.js",
+      "types": "./index.d.ts"
+    },
+    "require": {
+      "default": "./index.js",
+      "types": "./index.d.ts"
+    }
   },
   "author": "nXhermane",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nXhermane/PathResolver.git"
+  },
+  "scripts": {
+    "start": "nodemon test.ts",
+    "build": "webpack --mode production",
+    "build:dev": "webpack && node clean-empty-dirs.js",
+    "rollup": "npx rollup -c rollup.config.js",
+    "build:doc:html": "npx documentation build ./**/*.ts -f html -o docs",
+    "build:doc:md": "npx documentation build ./**/*.ts -f md -o docs/Readme.md",
+    "test": "jest"
+  },
   "devDependencies": {
-    "@types/node": "^22.5.4",
-    "@types/webpack": "^5.28.5",
-    "@webpack-cli/generators": "^3.0.7",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.10.5",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^12.0.2",
-    "declaration-bundler-webpack-plugin": "^1.0.3",
     "documentation": "^14.0.3",
-    "dts-bundle-webpack": "^1.0.2",
-    "nodemon": "^3.1.4",
-    "terser-webpack-plugin": "^5.3.10",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.9",
+    "rollup-plugin-dts": "^6.1.1",
+    "terser-webpack-plugin": "^5.3.11",
+    "ts-jest": "^29.2.5",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.4",
-    "webpack": "^5.94.0",
-    "webpack-cli": "^5.1.4",
-    "wepack-cli": "^0.0.1-security",
-    "workbox-webpack-plugin": "^7.1.0"
-  }
+    "typescript": "^5.7.2",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1",
+    "workbox-webpack-plugin": "^7.3.0"
+  },
+  "peerDependencies": {},
+  "dependencies": {},
+  "keywords": [
+    "path",
+    "resolver",
+    "object-path",
+    "deep-access",
+    "nested-properties",
+    "data-traversal",
+    "typescript",
+    "javascript",
+    "async-path-resolver",
+    "map-set-resolver"
+  ]
 }

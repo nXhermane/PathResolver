@@ -1,0 +1,12 @@
+
+node_modules
+docs
+.vscode 
+dist
+/yarn.lock
+/src/exemple
+srcNew
+/test.js
+/index.ts
+coverage
+/test.ts
